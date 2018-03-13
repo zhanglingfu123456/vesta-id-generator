@@ -64,7 +64,9 @@ public abstract class AbstractIdServiceImpl implements IdService {
                 throw new RuntimeException("Init Error. The time bits in IdMeta should be set to 30 or 40!");
             }
         }
-        setIdConverter(new IdConverterImpl(this.idMeta));
+        if(this.idConverter == null){
+            setIdConverter(new IdConverterImpl());
+        }
     }
 
     public long genId() {
@@ -77,7 +79,7 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
         populateId(id);
 
-        long ret = idConverter.convert(id);
+        long ret = idConverter.convert(id, this.idMeta);
 
         // Use trace because it cause low performance
         if (log.isTraceEnabled())
@@ -100,7 +102,7 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
 
     public Id expId(long id) {
-        return idConverter.convert(id);
+        return idConverter.convert(id, this.idMeta);
     }
 
     public long makeId(long time, long seq) {
@@ -122,12 +124,8 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
     public long makeId(long version, long type, long genMethod,
                        long time, long seq, long machine) {
-        IdType idType = IdType.parse(type);
-
         Id id = new Id(machine, seq, time, genMethod, type, version);
-        IdConverter idConverter = new IdConverterImpl(idType);
-
-        return idConverter.convert(id);
+        return idConverter.convert(id, this.idMeta);
     }
 
 
