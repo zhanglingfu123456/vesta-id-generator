@@ -2,25 +2,13 @@ package com.robert.vesta.service.impl.converter;
 
 import com.robert.vesta.service.bean.Id;
 import com.robert.vesta.service.impl.bean.IdMeta;
-import com.robert.vesta.service.impl.bean.IdMetaFactory;
-import com.robert.vesta.service.impl.bean.IdType;
 
 public class IdConverterImpl implements IdConverter {
-
-    private IdMeta idMeta;
 
     public IdConverterImpl() {
     }
 
-    public IdConverterImpl(IdType idType) {
-        this(IdMetaFactory.getIdMeta(idType));
-    }
-
-    public IdConverterImpl(IdMeta idMeta) {
-        this.idMeta = idMeta;
-    }
-
-    public long convert(Id id) {
+    public long convert(Id id, IdMeta idMeta) {
         return doConvert(id, idMeta);
     }
 
@@ -42,7 +30,7 @@ public class IdConverterImpl implements IdConverter {
         return ret;
     }
 
-    public Id convert(long id) {
+    public Id convert(long id, IdMeta idMeta) {
         return doConvert(id, idMeta);
     }
 
@@ -64,11 +52,4 @@ public class IdConverterImpl implements IdConverter {
         return ret;
     }
 
-    public IdMeta getIdMeta() {
-        return idMeta;
-    }
-
-    public void setIdMeta(IdMeta idMeta) {
-        this.idMeta = idMeta;
-    }
 }

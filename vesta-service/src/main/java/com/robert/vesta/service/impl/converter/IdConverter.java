@@ -1,11 +1,12 @@
 package com.robert.vesta.service.impl.converter;
 
 import com.robert.vesta.service.bean.Id;
+import com.robert.vesta.service.impl.bean.IdMeta;
 
 public interface IdConverter {
 
-    public long convert(Id id);
+    long convert(Id id, IdMeta idMeta);
 
-    public Id convert(long id);
+    Id convert(long id, IdMeta idMeta);
 
 }
