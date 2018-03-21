@@ -20,7 +20,6 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
     protected long machineId = -1;
     protected long genMethod = 0;
-    protected long type = 0;
     protected long version = 0;
 
     protected IdType idType;
@@ -31,10 +30,14 @@ public abstract class AbstractIdServiceImpl implements IdService {
     protected MachineIdProvider machineIdProvider;
 
     public AbstractIdServiceImpl() {
-        idType = IdType.MAX_PEAK;
+        idType = IdType.SECONDS;
     }
 
     public AbstractIdServiceImpl(String type) {
+        idType = IdType.parse(type);
+    }
+
+    public AbstractIdServiceImpl(long type) {
         idType = IdType.parse(type);
     }
 
@@ -54,15 +57,6 @@ public abstract class AbstractIdServiceImpl implements IdService {
         }
         if(this.idMeta == null){
             setIdMeta(IdMetaFactory.getIdMeta(idType));
-            setType(idType.value());
-        } else {
-            if(this.idMeta.getTimeBits() == 30){
-                setType(0);
-            } else if(this.idMeta.getTimeBits() == 40){
-                setType(1);
-            } else {
-                throw new RuntimeException("Init Error. The time bits in IdMeta should be set to 30 or 40!");
-            }
         }
         if(this.idConverter == null){
             setIdConverter(new IdConverterImpl());
@@ -74,7 +68,7 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
         id.setMachine(machineId);
         id.setGenMethod(genMethod);
-        id.setType(type);
+        id.setType(idType.value());
         id.setVersion(version);
 
         populateId(id);
@@ -91,9 +85,9 @@ public abstract class AbstractIdServiceImpl implements IdService {
     protected abstract void populateId(Id id);
 
     public Date transTime(final long time) {
-        if (idType == IdType.MAX_PEAK) {
+        if (idType == IdType.SECONDS) {
             return new Date(time * 1000 + TimeUtils.EPOCH);
-        } else if (idType == IdType.MIN_GRANULARITY) {
+        } else if (idType == IdType.MILLISECONDS) {
             return new Date(time + TimeUtils.EPOCH);
         }
 
@@ -114,7 +108,7 @@ public abstract class AbstractIdServiceImpl implements IdService {
     }
 
     public long makeId(long genMethod, long time, long seq, long machine) {
-        return makeId(type, genMethod, time, seq, machine);
+        return makeId(idType.value(), genMethod, time, seq, machine);
     }
 
     public long makeId(long type, long genMethod, long time,
@@ -135,10 +129,6 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
     public void setGenMethod(long genMethod) {
         this.genMethod = genMethod;
-    }
-
-    public void setType(long type) {
-        this.type = type;
     }
 
     public void setVersion(long version) {

@@ -1,6 +1,8 @@
 package com.robert.vesta.client;
 
 import com.robert.vesta.service.bean.Id;
+import com.robert.vesta.service.impl.bean.IdMeta;
+import com.robert.vesta.service.impl.bean.IdMetaFactory;
 import com.robert.vesta.service.impl.bean.IdType;
 import com.robert.vesta.service.impl.converter.IdConverter;
 import com.robert.vesta.service.impl.converter.IdConverterImpl;
@@ -20,8 +22,9 @@ public class VestaClientTest extends AbstractTestNGSpringContextTests {
         long id = idService.genId();
         Id ido = idService.expId(id);
 
-        IdConverter idConverter = new IdConverterImpl(IdType.MAX_PEAK);
-        long id1 = idConverter.convert(ido);
+        IdMeta idMeta = IdMetaFactory.getIdMeta(IdType.SECONDS);
+        IdConverter idConverter = new IdConverterImpl();
+        long id1 = idConverter.convert(ido, idMeta);
 
         AssertJUnit.assertEquals(id, id1);
 

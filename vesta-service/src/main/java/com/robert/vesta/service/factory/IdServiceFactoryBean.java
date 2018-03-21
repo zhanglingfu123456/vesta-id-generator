@@ -70,12 +70,15 @@ public class IdServiceFactoryBean implements FactoryBean<IdService> {
         PropertyMachineIdProvider propertyMachineIdProvider = new PropertyMachineIdProvider();
         propertyMachineIdProvider.setMachineId(machineId);
 
-        IdServiceImpl idServiceImpl = new IdServiceImpl();
+        IdServiceImpl idServiceImpl;
+        if (type != -1)
+            idServiceImpl = new IdServiceImpl(type);
+        else
+            idServiceImpl = new IdServiceImpl();
+
         idServiceImpl.setMachineIdProvider(propertyMachineIdProvider);
         if (genMethod != -1)
             idServiceImpl.setGenMethod(genMethod);
-        if (type != -1)
-            idServiceImpl.setType(type);
         if (version != -1)
             idServiceImpl.setVersion(version);
         idServiceImpl.init();
@@ -89,12 +92,15 @@ public class IdServiceFactoryBean implements FactoryBean<IdService> {
         IpConfigurableMachineIdProvider ipConfigurableMachineIdProvider = new IpConfigurableMachineIdProvider(
                 ips);
 
-        IdServiceImpl idServiceImpl = new IdServiceImpl();
+        IdServiceImpl idServiceImpl;
+        if (type != -1)
+            idServiceImpl = new IdServiceImpl(type);
+        else
+            idServiceImpl = new IdServiceImpl();
+
         idServiceImpl.setMachineIdProvider(ipConfigurableMachineIdProvider);
         if (genMethod != -1)
             idServiceImpl.setGenMethod(genMethod);
-        if (type != -1)
-            idServiceImpl.setType(type);
         if (version != -1)
             idServiceImpl.setVersion(version);
         idServiceImpl.init();
@@ -144,12 +150,15 @@ public class IdServiceFactoryBean implements FactoryBean<IdService> {
         dbMachineIdProvider.setJdbcTemplate(jdbcTemplate);
         dbMachineIdProvider.init();
 
-        IdServiceImpl idServiceImpl = new IdServiceImpl();
+        IdServiceImpl idServiceImpl;
+        if (type != -1)
+            idServiceImpl = new IdServiceImpl(type);
+        else
+            idServiceImpl = new IdServiceImpl();
+
         idServiceImpl.setMachineIdProvider(dbMachineIdProvider);
         if (genMethod != -1)
             idServiceImpl.setGenMethod(genMethod);
-        if (type != -1)
-            idServiceImpl.setType(type);
         if (version != -1)
             idServiceImpl.setVersion(version);
         idServiceImpl.init();

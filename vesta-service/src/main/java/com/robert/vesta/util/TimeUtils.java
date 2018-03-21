@@ -43,11 +43,8 @@ public class TimeUtils {
     }
 
     public static long genTime(final IdType idType) {
-        if (idType == IdType.MAX_PEAK)
-            return (System.currentTimeMillis() - TimeUtils.EPOCH) / 1000;
-        else if (idType == IdType.MIN_GRANULARITY)
+        if (idType == IdType.MILLISECONDS)
             return (System.currentTimeMillis() - TimeUtils.EPOCH);
-
         return (System.currentTimeMillis() - TimeUtils.EPOCH) / 1000;
     }
 

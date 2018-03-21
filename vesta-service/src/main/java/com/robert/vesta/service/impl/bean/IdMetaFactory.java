@@ -7,9 +7,9 @@ public class IdMetaFactory {
     private static IdMeta minGranularity = new IdMeta((byte) 10, (byte) 10, (byte) 40, (byte) 2, (byte) 1, (byte) 1);
 
     public static IdMeta getIdMeta(IdType type) {
-        if (IdType.MAX_PEAK.equals(type)) {
+        if (IdType.SECONDS.equals(type)) {
             return maxPeak;
-        } else if (IdType.MIN_GRANULARITY.equals(type)) {
+        } else if (IdType.MILLISECONDS.equals(type)) {
             return minGranularity;
         }
         return null;
