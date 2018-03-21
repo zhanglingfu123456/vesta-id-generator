@@ -46,20 +46,27 @@ public abstract class AbstractIdServiceImpl implements IdService {
     }
 
     public void init() {
-        this.machineId = machineIdProvider.getMachineId();
-
-        if (machineId < 0) {
-            log.error("The machine ID is not configured properly so that Vesta Service refuses to start.");
-
-            throw new IllegalStateException(
-                    "The machine ID is not configured properly so that Vesta Service refuses to start.");
-
-        }
         if(this.idMeta == null){
             setIdMeta(IdMetaFactory.getIdMeta(idType));
         }
         if(this.idConverter == null){
             setIdConverter(new IdConverterImpl());
+        }
+        this.machineId = machineIdProvider.getMachineId();
+
+        if (machineId < 0) {
+            log.error("The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
+
+            throw new IllegalStateException(
+                    "The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
+
+        } else if (machineId >= (1 << this.idMeta.getMachineBits())) {
+            log.error("The machine ID is not configured properly ("
+                    + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
+
+            throw new IllegalStateException("The machine ID is not configured properly ("
+                            + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
+
         }
     }
 
