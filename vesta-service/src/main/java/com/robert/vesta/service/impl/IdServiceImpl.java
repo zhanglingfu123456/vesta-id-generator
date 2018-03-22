@@ -18,30 +18,28 @@ public class IdServiceImpl extends AbstractIdServiceImpl {
 
     public IdServiceImpl() {
         super();
-
-        initPopulator();
     }
 
     public IdServiceImpl(String type) {
         super(type);
-
-        initPopulator();
     }
 
     public IdServiceImpl(long type) {
         super(type);
-
-        initPopulator();
     }
 
     public IdServiceImpl(IdType type) {
         super(type);
+    }
 
+    @Override
+    public void init() {
+        super.init();
         initPopulator();
     }
 
     public void initPopulator() {
-        if(idPopulator != null){
+        if (idPopulator != null){
             log.info("The " + idPopulator.getClass().getCanonicalName() + " is used.");
         } else if (CommonUtils.isPropKeyOn(SYNC_LOCK_IMPL_KEY)) {
             log.info("The SyncIdPopulator is used.");
@@ -56,7 +54,7 @@ public class IdServiceImpl extends AbstractIdServiceImpl {
     }
 
     protected void populateId(Id id) {
-        idPopulator.populateId(id, this.idMeta);
+        idPopulator.populateId(timer, id, idMeta);
     }
 
     public void setIdPopulator(IdPopulator idPopulator) {

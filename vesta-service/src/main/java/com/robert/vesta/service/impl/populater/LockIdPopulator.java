@@ -2,6 +2,7 @@ package com.robert.vesta.service.impl.populater;
 
 import com.robert.vesta.service.bean.Id;
 import com.robert.vesta.service.impl.bean.IdMeta;
+import com.robert.vesta.service.impl.timer.Timer;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -14,10 +15,10 @@ public class LockIdPopulator extends BasePopulator {
         super();
     }
 
-    public void populateId(Id id, IdMeta idMeta) {
+    public void populateId(Timer timer, Id id, IdMeta idMeta) {
         lock.lock();
         try {
-            super.populateId(id, idMeta);
+            super.populateId(timer, id, idMeta);
         } finally {
             lock.unlock();
         }

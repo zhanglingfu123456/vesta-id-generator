@@ -2,9 +2,10 @@ package com.robert.vesta.service.impl.populater;
 
 import com.robert.vesta.service.bean.Id;
 import com.robert.vesta.service.impl.bean.IdMeta;
+import com.robert.vesta.service.impl.timer.Timer;
 
 public interface IdPopulator {
 
-    void populateId(Id id, IdMeta idMeta);
+    void populateId(Timer timer, Id id, IdMeta idMeta);
 
 }

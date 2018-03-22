@@ -2,8 +2,7 @@ package com.robert.vesta.service.impl.populater;
 
 import com.robert.vesta.service.bean.Id;
 import com.robert.vesta.service.impl.bean.IdMeta;
-import com.robert.vesta.service.impl.bean.IdType;
-import com.robert.vesta.util.TimeUtils;
+import com.robert.vesta.service.impl.timer.Timer;
 
 public abstract class BasePopulator implements IdPopulator, ResetPopulator {
     protected long sequence = 0;
@@ -13,15 +12,15 @@ public abstract class BasePopulator implements IdPopulator, ResetPopulator {
         super();
     }
 
-    public void populateId(Id id, IdMeta idMeta) {
-        long timestamp = TimeUtils.genTime(IdType.parse(id.getType()));
-        TimeUtils.validateTimestamp(lastTimestamp, timestamp);
+    public void populateId(Timer timer, Id id, IdMeta idMeta) {
+        long timestamp = timer.genTime();
+        timer.validateTimestamp(lastTimestamp, timestamp);
 
         if (timestamp == lastTimestamp) {
             sequence++;
             sequence &= idMeta.getSeqBitsMask();
             if (sequence == 0) {
-                timestamp = TimeUtils.tillNextTimeUnit(lastTimestamp, IdType.parse(id.getType()));
+                timestamp = timer.tillNextTimeUnit(lastTimestamp);
             }
         } else {
             lastTimestamp = timestamp;

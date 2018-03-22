@@ -1,14 +1,11 @@
 package com.robert.vesta.service.impl;
 
 import com.robert.vesta.service.bean.Id;
-import com.robert.vesta.service.impl.bean.IdType;
 import com.robert.vesta.service.impl.populater.IdPopulator;
 import com.robert.vesta.service.impl.populater.ResetPopulator;
 import com.robert.vesta.service.impl.provider.MachineIdsProvider;
-import com.robert.vesta.util.TimeUtils;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
@@ -46,7 +43,7 @@ public class MachineIdsIdServiceImpl extends IdServiceImpl {
     private void supportChangeMachineId(Id id) {
         try {
             id.setMachine(this.machineId);
-            idPopulator.populateId(id, this.idMeta);
+            idPopulator.populateId(timer, id, idMeta);
             this.lastTimestamp = id.getTime();
         } catch (IllegalStateException e) {
             log.warn("Clock moved backwards, change MachineId and reset IdPopulator");
@@ -113,23 +110,25 @@ public class MachineIdsIdServiceImpl extends IdServiceImpl {
     protected void initMachineId() {
         long startId = this.machineId;
         long newMachineId = this.machineId;
-        while(true) {
+        while (true) {
             if (this.machineIdMap.containsKey(newMachineId)) {
-                long timestamp = TimeUtils.genTime(idType);
+                long timestamp = timer.genTime();
                 if (this.machineIdMap.get(newMachineId) < timestamp) {
                     this.machineId = newMachineId;
                     break;
                 } else {
-                    newMachineId = ((MachineIdsProvider)this.machineIdProvider).getNextMachineId();
+                    newMachineId = ((MachineIdsProvider) this.machineIdProvider).getNextMachineId();
                 }
-                if(newMachineId == startId){
+                if (newMachineId == startId) {
                     throw new RuntimeException("No machineId is available");
                 }
+                validateMachineId(newMachineId);
             } else {
                 this.machineId = newMachineId;
                 break;
             }
         }
+        log.warn("MachineId: {}", this.machineId);
     }
 
     protected void storeInFile() {
