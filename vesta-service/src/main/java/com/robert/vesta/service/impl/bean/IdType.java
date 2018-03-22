@@ -1,7 +1,7 @@
 package com.robert.vesta.service.impl.bean;
 
 public enum IdType {
-    MAX_PEAK("max-peak"), MIN_GRANULARITY("min-granularity");
+    SECONDS("seconds"), MILLISECONDS("milliseconds");
 
     private String name;
 
@@ -11,9 +11,9 @@ public enum IdType {
 
     public long value() {
         switch (this) {
-            case MAX_PEAK:
+            case SECONDS:
                 return 0;
-            case MIN_GRANULARITY:
+            case MILLISECONDS:
                 return 1;
             default:
                 return 0;
@@ -26,20 +26,20 @@ public enum IdType {
     }
 
     public static IdType parse(String name) {
-        if ("min-granularity".equals(name))
-            return MIN_GRANULARITY;
-        else if ("max-peak".equals(name))
-            return MAX_PEAK;
+        if ("seconds".equals(name))
+            return SECONDS;
+        else if ("milliseconds".equals(name))
+            return MILLISECONDS;
 
-        return null;
+        throw new IllegalArgumentException("Illegal IdType name <[" + name + "]>, available names are seconds and milliseconds");
     }
 
     public static IdType parse(long type) {
         if (type == 1)
-            return MIN_GRANULARITY;
+            return MILLISECONDS;
         else if (type == 0)
-            return MAX_PEAK;
+            return SECONDS;
 
-        return null;
+        throw new IllegalArgumentException("Illegal IdType value <[" + type + "]>, available values are 0 (for seconds) and 1 (for milliseconds)");
     }
 }

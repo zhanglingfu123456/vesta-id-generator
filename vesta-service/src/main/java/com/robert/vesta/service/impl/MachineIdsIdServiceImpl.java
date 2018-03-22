@@ -115,7 +115,7 @@ public class MachineIdsIdServiceImpl extends IdServiceImpl {
         long newMachineId = this.machineId;
         while(true) {
             if (this.machineIdMap.containsKey(newMachineId)) {
-                long timestamp = TimeUtils.genTime(IdType.parse(this.type));
+                long timestamp = TimeUtils.genTime(idType);
                 if (this.machineIdMap.get(newMachineId) < timestamp) {
                     this.machineId = newMachineId;
                     break;

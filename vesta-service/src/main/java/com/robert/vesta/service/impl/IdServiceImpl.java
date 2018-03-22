@@ -28,6 +28,12 @@ public class IdServiceImpl extends AbstractIdServiceImpl {
         initPopulator();
     }
 
+    public IdServiceImpl(long type) {
+        super(type);
+
+        initPopulator();
+    }
+
     public IdServiceImpl(IdType type) {
         super(type);
 
