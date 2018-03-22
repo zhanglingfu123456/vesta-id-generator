@@ -7,8 +7,9 @@ import com.robert.vesta.service.impl.bean.IdType;
 import com.robert.vesta.service.impl.converter.IdConverter;
 import com.robert.vesta.service.impl.converter.IdConverterImpl;
 import com.robert.vesta.service.impl.provider.MachineIdProvider;
+import com.robert.vesta.service.impl.timer.SimpleTimer;
+import com.robert.vesta.service.impl.timer.Timer;
 import com.robert.vesta.service.intf.IdService;
-import com.robert.vesta.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,8 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
     protected MachineIdProvider machineIdProvider;
 
+    protected Timer timer;
+
     public AbstractIdServiceImpl() {
         idType = IdType.SECONDS;
     }
@@ -46,28 +49,19 @@ public abstract class AbstractIdServiceImpl implements IdService {
     }
 
     public void init() {
-        if(this.idMeta == null){
+        if (this.idMeta == null) {
             setIdMeta(IdMetaFactory.getIdMeta(idType));
         }
-        if(this.idConverter == null){
+        if (this.idConverter == null) {
             setIdConverter(new IdConverterImpl());
         }
-        this.machineId = machineIdProvider.getMachineId();
-
-        if (machineId < 0) {
-            log.error("The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
-
-            throw new IllegalStateException(
-                    "The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
-
-        } else if (machineId >= (1 << this.idMeta.getMachineBits())) {
-            log.error("The machine ID is not configured properly ("
-                    + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
-
-            throw new IllegalStateException("The machine ID is not configured properly ("
-                            + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
-
+        if (this.timer == null) {
+            setTimer(new SimpleTimer());
         }
+        this.timer.init(idMeta, idType);
+
+        this.machineId = machineIdProvider.getMachineId();
+        validateMachineId(this.machineId);
     }
 
     public long genId() {
@@ -89,16 +83,27 @@ public abstract class AbstractIdServiceImpl implements IdService {
         return ret;
     }
 
+    public void validateMachineId(long machineId){
+        if (machineId < 0) {
+            log.error("The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
+
+            throw new IllegalStateException(
+                    "The machine ID is not configured properly (" + machineId + " < 0) so that Vesta Service refuses to start.");
+
+        } else if (machineId >= (1 << this.idMeta.getMachineBits())) {
+            log.error("The machine ID is not configured properly ("
+                    + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
+
+            throw new IllegalStateException("The machine ID is not configured properly ("
+                    + machineId + " >= " + (1 << this.idMeta.getMachineBits()) + ") so that Vesta Service refuses to start.");
+
+        }
+    }
+
     protected abstract void populateId(Id id);
 
     public Date transTime(final long time) {
-        if (idType == IdType.SECONDS) {
-            return new Date(time * 1000 + TimeUtils.EPOCH);
-        } else if (idType == IdType.MILLISECONDS) {
-            return new Date(time + TimeUtils.EPOCH);
-        }
-
-        return null;
+        return timer.transTime(time);
     }
 
 
@@ -129,7 +134,6 @@ public abstract class AbstractIdServiceImpl implements IdService {
         return idConverter.convert(id, this.idMeta);
     }
 
-
     public void setMachineId(long machineId) {
         this.machineId = machineId;
     }
@@ -152,5 +156,9 @@ public abstract class AbstractIdServiceImpl implements IdService {
 
     public void setMachineIdProvider(MachineIdProvider machineIdProvider) {
         this.machineIdProvider = machineIdProvider;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 }
