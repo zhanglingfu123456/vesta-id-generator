@@ -6,6 +6,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -57,6 +59,8 @@ public class VestaRestNettyServer {
     public static Properties loadConf() throws IOException {
         InputStream resourceAsStream = VestaRestNettyServer.class.getClassLoader()
                 .getResourceAsStream("spring/vesta-rest-netty.properties");
+//        new FileInputStream(new File(System.getProperty("user.dir")+File.separator+""))
+        System.out.println(System.getProperty("user.dir"));
         Properties properties=new Properties();
         properties.load(resourceAsStream);
         return properties;
