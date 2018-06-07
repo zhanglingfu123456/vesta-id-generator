@@ -12,6 +12,7 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders.Values;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import java.text.SimpleDateFormat;
 import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -141,8 +142,8 @@ public class VestaRestNettyServerHandler extends ChannelHandlerAdapter {
 
             if (log.isTraceEnabled())
                 log.trace("Time: " + date);
-
-            sbContent.append(date);
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            sbContent.append(simpleDateFormat.format(date));
         } else if (ACTION_MAKEID.equals(uri.getPath())) {
             long madeId = -1;
 
