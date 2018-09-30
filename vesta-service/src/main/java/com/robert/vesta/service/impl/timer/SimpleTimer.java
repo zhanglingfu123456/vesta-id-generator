@@ -16,7 +16,7 @@ public class SimpleTimer implements Timer {
 
     public void init(IdMeta idMeta, IdType idType) {
         this.idMeta = idMeta;
-        this.maxTime = (1 << idMeta.getTimeBits()) - 1;
+        this.maxTime = (1L << idMeta.getTimeBits()) - 1;
         this.idType = idType;
         this.genTime();
         this.timerUsedLog();
