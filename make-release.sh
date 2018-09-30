@@ -8,7 +8,7 @@ tar zcvf target/vesta-id-generator-0.0.1-release/bin/vesta-all-src-0.0.1.tar.gz 
 
 mkdir ./target/vesta-id-generator-0.0.1-release/doc
 #generate-md --layout mixu-book --input ./vesta-doc --output ./target/vesta-id-generator-0.0.1-release/doc
-generate-md --layout ./vesta-theme --input ./vesta-doc --output ./target/vesta-id-generator-0.0.1-release/doc
+#generate-md --layout ./vesta-theme --input ./vesta-doc --output ./target/vesta-id-generator-0.0.1-release/doc
 
 rm -fr releases/
 mkdir releases
