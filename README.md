@@ -17,6 +17,7 @@
 
 ## 4 文档
 
+- [使用向导REST发布模式](./vesta-doc/Vesta.md)
 - [使用向导 - REST发布模式](./vesta-doc/统一发号器\(Vesta\) - 使用向导 - REST发布模式.md)
 - [使用向导 - 中心服务器发布模式](./vesta-doc/统一发号器(Vesta) - 使用向导 - 中心服务器发布模式.md)
 - [使用向导 - 嵌入发布模式](./vesta-doc/统一发号器(Vesta) - 使用向导 - 嵌入发布模式.md)
