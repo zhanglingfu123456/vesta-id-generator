@@ -17,17 +17,16 @@
 
 ## 4 文档
 
-- [使用向导REST发布模式](./vesta-doc/Vesta.md)
-- [使用向导 - REST发布模式](./vesta-doc/统一发号器\(Vesta\) - 使用向导 - REST发布模式.md)
-- [使用向导 - 中心服务器发布模式](./vesta-doc/统一发号器(Vesta) - 使用向导 - 中心服务器发布模式.md)
-- [使用向导 - 嵌入发布模式](./vesta-doc/统一发号器(Vesta) - 使用向导 - 嵌入发布模式.md)
-- [架构设计](./vesta-doc/统一发号器(Vesta) - 架构设计.md)
-- [API文档](./vesta-doc/统一发号器(Vesta) - API文档.md)
-- [性能压测报告](./vesta-doc/统一发号器(Vesta) - 性能压测报告.md)
+- [REST发布模式使用向导](./vesta-doc/REST发布模式使用向导.md)
+- [中心服务器发布模式使用向导](中心服务器发布模式使用向导.md)
+- [嵌入发布模式](./vesta-doc/嵌入发布模式使用向导.md)
+- [架构设计](./vesta-doc/架构设计.md)
+- [API文档](./vesta-doc/API文档.md)
+- [性能压测报告](./vesta-doc/性能压测报告.md)
 
 ## 5 PPT
 
-- [介绍](./vesta-doc/统一发号器(Vesta) - 介绍 - 李艳鹏.pptx)
+- [介绍](./vesta-doc/介绍.pptx)
 
 ## 6 获得技术支持
 
