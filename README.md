@@ -29,5 +29,9 @@
 - [介绍](./vesta-doc/介绍.pptx)
 
 ## 6 获得技术支持
-
+1.
 <a href="./vesta-theme/我的微信QR.jpeg"><img src="./vesta-theme/我的微信QR.jpeg" alt="cloudate-qrcode" width="150" height="190" class="alignnone size-full wp-image-1138" /></a>
+
+2.kelen
+微信号
+fangjunyi1991
