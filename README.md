@@ -7,12 +7,12 @@
 
 ## 2 项目主页 
 
-- [码云主页](https://gitee.com/robertleepeak/vesta-id-generator)
-- [Github主页](https://github.com/cloudatee/vesta-id-generator)
+- [码云主页](https://gitee.com/704921095/vesta-id-generator)
+- [Github主页](https://github.com/zhanglingfu123456/vesta-id-generatorr)
 
 ## 3 源码下载
 
-- git clone https://gitee.com/robertleepeak/vesta-id-generator.git
+- git clone https://gitee.com/704921095/vesta-id-generator.git
 - git clone https://github.com/cloudatee/vesta-id-generator.git
 
 ## 4 文档
